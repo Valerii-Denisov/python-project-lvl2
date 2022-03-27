@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "hexlet-code"
+version = "0.1.0"
+description = ""
+authors = ["Valerii-Denisov <klerk919191@gmail.com>"]
+packages = [{ include = "gendiff"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+wemake-python-styleguide = "^0.16.1"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^4.0.1"
+
+[tool.poetry.scripts]
+gendiff = "gendiff.scripts.gendiff:main"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
