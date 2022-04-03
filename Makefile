@@ -21,3 +21,9 @@ upgrade:
 
 lint:
 	poetry run flake8 gendiff
+
+test:
+	poetry run pytest
+
+test-cover:
+	poetry run pytest --cov=gendiff
