@@ -8,6 +8,7 @@ packages = [{ include = "gendiff"}]
 [tool.poetry.dependencies]
 python = "^3.9"
 wemake-python-styleguide = "^0.16.1"
+PyYAML = "^6.0"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^4.0.1"

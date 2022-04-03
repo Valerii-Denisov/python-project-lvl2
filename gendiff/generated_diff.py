@@ -1,6 +1,6 @@
 """The module forms the differences of two flat files."""
 
-import json
+from gendiff.getting_date import getting_date
 
 
 def lowering_text(lowering_date):
@@ -29,20 +29,6 @@ def getting_set_keys(first_dict, second_dict):
         set.
     """
     return set(list(first_dict.keys()) + list(second_dict.keys()))
-
-
-def getting_date(file1):
-    """
-    Read date from JSON-file.
-
-    Parameters:
-        file1: str.
-
-    Returns:
-        Dict of date from file.
-    """
-    with open(file1) as file_data:
-        return json.load(file_data)
 
 
 def generate_diff(first_file, second_file):
