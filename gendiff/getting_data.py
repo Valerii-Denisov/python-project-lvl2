@@ -34,5 +34,5 @@ def getting_data(path_file):
         with open(path_file) as file_data:
             return json.load(file_data)
     elif getting_file_format(path_file) in {'yaml', 'yml'}:
-        with open(path_file) as file_data:
-            return dict(yaml.load(file_data, Loader=SafeLoader))
+        with open(path_file) as yaml_file_data:
+            return dict(yaml.load(yaml_file_data, Loader=SafeLoader))
