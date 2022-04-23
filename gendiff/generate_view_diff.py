@@ -1,19 +1,6 @@
 """The module generates representation of the difference."""
 
 
-def is_dict(checking_object):
-    """
-    Check whether the object is a dictionary or not.
-
-    Parameters:
-        checking_object: str, int, bool, dict.
-
-    Returns:
-        True or False.
-    """
-    return isinstance(checking_object, dict)
-
-
 def get_keys_set(dict1, dict2):
     """
     Build sorted set of keys.

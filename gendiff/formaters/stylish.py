@@ -209,6 +209,26 @@ def get_changed_string(key, value, level):
                 get_val_string(value['data']['new'], level),
             ),
         )
+    else:
+        output.append(
+            '{0}{1}{2}: {3}'.format(
+                get_level_ident(level),
+                '  - ',
+                key,
+                get_val_string(value['data']['old'], level),
+            ),
+        )
+        output.append(
+            '{0}{1}{2}: {4}\n{3}\n{6}{5}'.format(
+                get_level_ident(level),
+                '  + ',
+                key,
+                get_val_string(value['data']['new'], level + 1),
+                '{',
+                '}',
+                get_level_ident(level + 1),
+            ),
+        )
     return '\n'.join(output)
 
 
