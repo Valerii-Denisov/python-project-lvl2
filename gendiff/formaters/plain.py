@@ -35,6 +35,8 @@ def get_value(sub_dict):
             return stylish.get_lower_text(sub_dict)
         elif sub_dict is None:
             return json.dumps(sub_dict)
+        elif isinstance(sub_dict, int):
+            return sub_dict
         else:
             return '\'{0}\''.format(sub_dict)
     else:
