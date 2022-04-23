@@ -167,8 +167,8 @@ def get_changed_string(key, value, level):
     """
     output = []
     if (
-        isinstance(value['data']['old'], dict) is False and
-        isinstance(value['data']['new'], dict) is False
+        isinstance(value['data']['old'], dict) is False
+        and isinstance(value['data']['new'], dict) is False
     ):
         output.append(
             '{0}{1}{2}: {3}'.format(
@@ -187,8 +187,8 @@ def get_changed_string(key, value, level):
             ),
         )
     elif (
-        isinstance(value['data']['old'], dict) and
-        isinstance(value['data']['new'], dict) is False
+        isinstance(value['data']['old'], dict)
+        and isinstance(value['data']['new'], dict) is False
     ):
         output.append(
             '{0}{1}{2}: {4}\n{3}\n{6}{5}'.format(

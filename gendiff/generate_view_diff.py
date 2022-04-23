@@ -44,8 +44,8 @@ def get_view_diff(file_data1, file_data2):
                 {key: {'status': 'unchanged', 'data': file_data1[key]}},
             )
         elif (
-            isinstance(file_data1.get(key), dict) is False or
-            isinstance(file_data2.get(key), dict) is False
+            isinstance(file_data1.get(key), dict) is False
+            or isinstance(file_data2.get(key), dict) is False
         ):
             output.update(
                 {

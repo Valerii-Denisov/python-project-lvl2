@@ -30,6 +30,7 @@ def get_answer(path):
         string = file.read()
     return string
 
+
 @pytest.mark.parametrize('file1, file2, result, format', [
     (PATH_FILE1_JSON, PATH_FILE2_JSON, PATH_RESULT_STYLISH_FLAT, STYLISH),
     (PATH_FILE1_YML, PATH_FILE2_YML, PATH_RESULT_STYLISH_FLAT, STYLISH),
@@ -53,4 +54,3 @@ def get_answer(path):
 def test_generated_diff(file1, file2, result, format):
     string = get_answer(result)
     assert string == generate_diff(file1, file2, format)
-
