@@ -1,9 +1,17 @@
 [tool.poetry]
 name = "hexlet-code"
 version = "0.1.0"
-description = ""
+description = "This project contains a module that defines the differences between the two files. File formats: -JSON; -YAML; -YML. Output formats: -Stylish; -Plain; -JSON."
 authors = ["Valerii-Denisov <klerk919191@gmail.com>"]
 packages = [{ include = "gendiff"}]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "License :: Free for non-commercial use",
+    "Operating System :: POSIX",
+    "Programming Language :: Python",
+]
+repository = "https://github.com/Valerii-Denisov/python-project-lvl2"
 
 [tool.poetry.dependencies]
 python = "^3.8"

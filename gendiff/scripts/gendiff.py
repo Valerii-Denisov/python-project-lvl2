@@ -7,7 +7,7 @@ from gendiff import generate_diff
 
 
 def main():
-    """Display help."""
+    """Display info of package."""
     parser = ap.ArgumentParser(description='Generate diff')
     parser.add_argument('first_file')
     parser.add_argument('second_file')

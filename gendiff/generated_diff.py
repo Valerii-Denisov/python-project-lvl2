@@ -2,12 +2,12 @@
 
 from gendiff.formaters import json, plain, stylish
 from gendiff.generate_view_diff import get_view_diff
-from gendiff.getting_date import getting_date
+from gendiff.getting_data import getting_data
 
 
 def generate_diff(first_file, second_file, format_diff='stylish'):
     """
-    Generate a string with the differences between the two files.
+    Generate a string with the differences between two files.
 
     Parameters:
         first_file: str,
@@ -17,8 +17,8 @@ def generate_diff(first_file, second_file, format_diff='stylish'):
     Returns:
         String of deference.
     """
-    first_data_string = getting_date(first_file)
-    second_data_string = getting_date(second_file)
+    first_data_string = getting_data(first_file)
+    second_data_string = getting_data(second_file)
     diff_view = get_view_diff(first_data_string, second_data_string)
     if format_diff == 'stylish':
         return stylish.get_format(diff_view)

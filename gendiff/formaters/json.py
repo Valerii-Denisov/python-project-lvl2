@@ -1,10 +1,10 @@
-"""Build string of difference in json format."""
+"""Builds a difference in JSON format."""
 import json
 
 
 def get_format(diff_view):
     """
-    Format the difference view into a string.
+    Format the difference represintation into a string.
 
     Parameters:
         diff_view: dict.

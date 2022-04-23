@@ -30,43 +30,43 @@ def get_keys_set(dict1, dict2):
     return sorted(set(dict1_keys | dict2_keys))
 
 
-def get_view_diff(file_date1, file_date2):
+def get_view_diff(file_data1, file_data2):
     """
     Build representation of difference.
 
     Parameters:
-        file_date1: dict,
-        file_date2: dict.
+        file_data1: dict,
+        file_data2: dict.
 
     Returns:
         dict.
     """
     output = {}
-    keys = get_keys_set(file_date1, file_date2)
+    keys = get_keys_set(file_data1, file_data2)
     for key in keys:
-        if key in file_date1 and key not in file_date2:
+        if key in file_data1 and key not in file_data2:
             output.update(
-                {key: {'status': 'removed', 'date': file_date1[key]}},
+                {key: {'status': 'removed', 'data': file_data1[key]}},
             )
-        elif key in file_date2 and key not in file_date1:
+        elif key in file_data2 and key not in file_data1:
             output.update(
-                {key: {'status': 'added', 'date': file_date2[key]}},
+                {key: {'status': 'added', 'data': file_data2[key]}},
             )
-        elif file_date1.get(key) == file_date2.get(key):
+        elif file_data1.get(key) == file_data2.get(key):
             output.update(
-                {key: {'status': 'unchanged', 'date': file_date1[key]}},
+                {key: {'status': 'unchanged', 'data': file_data1[key]}},
             )
         elif (
-            is_dict(file_date1.get(key)) is False or
-            is_dict(file_date2.get(key)) is False
+            isinstance(file_data1.get(key), dict) is False or
+            isinstance(file_data2.get(key), dict) is False
         ):
             output.update(
                 {
                     key: {
                         'status': 'changed',
-                        'date': {
-                            'old': file_date1[key],
-                            'new': file_date2[key],
+                        'data': {
+                            'old': file_data1[key],
+                            'new': file_data2[key],
                         },
                     },
                 },
@@ -77,8 +77,8 @@ def get_view_diff(file_date1, file_date2):
                     key: {
                         'status': 'nested',
                         'children': get_view_diff(
-                            file_date1[key],
-                            file_date2[key],
+                            file_data1[key],
+                            file_data2[key],
                         ),
                     },
                 },

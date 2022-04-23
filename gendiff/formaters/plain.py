@@ -1,4 +1,4 @@
-"""Build string of difference in plain format."""
+"""Builds a difference in plain format."""
 import json
 
 from gendiff.formaters import stylish
@@ -6,7 +6,7 @@ from gendiff.formaters import stylish
 
 def get_path(key, parent):
     """
-    Build path to value.
+    Build string of path to value.
 
     Parameters:
         key: str;
@@ -32,7 +32,7 @@ def get_value(sub_dict):
     """
     if isinstance(sub_dict, dict) is False:
         if isinstance(sub_dict, bool):
-            return stylish.lower_text(sub_dict)
+            return stylish.get_lower_text(sub_dict)
         elif sub_dict is None:
             return json.dumps(sub_dict)
         else:
@@ -43,7 +43,7 @@ def get_value(sub_dict):
 
 def get_format(diff_view):
     """
-    Format the difference view into a string.
+    Format the difference represintation into a string.
 
     Parameters:
         diff_view: dict.
@@ -59,7 +59,7 @@ def get_format(diff_view):
                 output.append(
                     'Property \'{0}\' was added with value: {1}'.format(
                         get_path(key, parent),
-                        get_value(value['date']),
+                        get_value(value['data']),
                     ),
                 )
             elif value['status'] == 'removed':
@@ -72,8 +72,8 @@ def get_format(diff_view):
                 output.append(
                     'Property \'{0}\' was updated. From {1} to {2}'.format(
                         get_path(key, parent),
-                        get_value(value['date']['old']),
-                        get_value(value['date']['new']),
+                        get_value(value['data']['old']),
+                        get_value(value['data']['new']),
                     ),
                 )
             elif value['status'] == 'nested':

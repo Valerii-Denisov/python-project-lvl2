@@ -1,4 +1,4 @@
-"""Build string of difference in stylish format."""
+"""Builds a difference in stylish format."""
 import json
 
 IDENT = '    '
@@ -12,22 +12,22 @@ def get_level_ident(level=0):
         level: int.
 
     Returns:
-        Ident string.
+        Ident.
     """
     return IDENT * level
 
 
-def lower_text(lowering_date):
+def get_lower_text(lowering_data):
     """
-    Lowering the register of received data.
+    Lower the register of received data.
 
     Parameters:
-        lowering_date: str.
+        lowering_data: str.
 
     Returns:
         lower string.
     """
-    string = str(lowering_date)
+    string = str(lowering_data)
     return string.lower()
 
 
@@ -45,7 +45,7 @@ def get_val_string(sub_dict, level):
     output = []
     if isinstance(sub_dict, dict) is False:
         if isinstance(sub_dict, bool):
-            return lower_text(sub_dict)
+            return get_lower_text(sub_dict)
         elif sub_dict is None:
             return json.dumps(sub_dict)
         else:
@@ -73,7 +73,7 @@ def get_val_string(sub_dict, level):
 
 def get_added_string(key, value, level):
     """
-    Build added string.
+    Build string of added node.
 
     Parameters:
         key: str;
@@ -83,19 +83,19 @@ def get_added_string(key, value, level):
     Returns:
         string.
     """
-    if isinstance(value.get('date'), dict) is False:
+    if isinstance(value.get('data'), dict) is False:
         return '{0}{1}{2}: {3}'.format(
             get_level_ident(level),
             '  + ',
             key,
-            get_val_string(value.get('date'), level),
+            get_val_string(value.get('data'), level),
         )
     else:
         return '{0}{1}{2}: {5}\n{3}\n{6}{4}'.format(
             get_level_ident(level),
             '  + ',
             key,
-            get_val_string(value.get('date'), level + 1),
+            get_val_string(value.get('data'), level + 1),
             '}',
             '{',
             get_level_ident(level + 1),
@@ -104,7 +104,7 @@ def get_added_string(key, value, level):
 
 def get_removed_string(key, value, level):
     """
-    Build removed string.
+    Build string of removed node.
 
     Parameters:
         key: str;
@@ -114,19 +114,19 @@ def get_removed_string(key, value, level):
     Returns:
         string.
     """
-    if isinstance(value.get('date'), dict) is False:
+    if isinstance(value.get('data'), dict) is False:
         return '{0}{1}{2}: {3}'.format(
             get_level_ident(level),
             '  - ',
             key,
-            get_val_string(value.get('date'), level),
+            get_val_string(value.get('data'), level),
         )
     else:
         return '{0}{1}{2}: {5}\n{3}\n{6}{4}'.format(
             get_level_ident(level),
             '  - ',
             key,
-            get_val_string(value.get('date'), level + 1),
+            get_val_string(value.get('data'), level + 1),
             '}',
             '{',
             get_level_ident(level + 1),
@@ -135,7 +135,7 @@ def get_removed_string(key, value, level):
 
 def get_unchanged_string(key, value, level):
     """
-    Build unchanged string.
+    Build string of unchanged node.
 
     Parameters:
         key: str;
@@ -149,13 +149,13 @@ def get_unchanged_string(key, value, level):
         get_level_ident(level),
         '    ',
         key,
-        value.get('date'),
+        value.get('data'),
     )
 
 
 def get_changed_string(key, value, level):
     """
-    Build changed string.
+    Build string of changed node.
 
     Parameters:
         key: str;
@@ -167,15 +167,15 @@ def get_changed_string(key, value, level):
     """
     output = []
     if (
-        isinstance(value['date']['old'], dict) is False and
-        isinstance(value['date']['new'], dict) is False
+        isinstance(value['data']['old'], dict) is False and
+        isinstance(value['data']['new'], dict) is False
     ):
         output.append(
             '{0}{1}{2}: {3}'.format(
                 get_level_ident(level),
                 '  - ',
                 key,
-                get_val_string(value['date']['old'], level),
+                get_val_string(value['data']['old'], level),
             ),
         )
         output.append(
@@ -183,19 +183,19 @@ def get_changed_string(key, value, level):
                 get_level_ident(level),
                 '  + ',
                 key,
-                get_val_string(value['date']['new'], level),
+                get_val_string(value['data']['new'], level),
             ),
         )
     elif (
-        isinstance(value['date']['old'], dict) and
-        isinstance(value['date']['new'], dict) is False
+        isinstance(value['data']['old'], dict) and
+        isinstance(value['data']['new'], dict) is False
     ):
         output.append(
             '{0}{1}{2}: {4}\n{3}\n{6}{5}'.format(
                 get_level_ident(level),
                 '  - ',
                 key,
-                get_val_string(value['date']['old'], level + 1),
+                get_val_string(value['data']['old'], level + 1),
                 '{',
                 '}',
                 get_level_ident(level + 1),
@@ -206,7 +206,7 @@ def get_changed_string(key, value, level):
                 get_level_ident(level),
                 '  + ',
                 key,
-                get_val_string(value['date']['new'], level),
+                get_val_string(value['data']['new'], level),
             ),
         )
     return '\n'.join(output)
@@ -214,7 +214,7 @@ def get_changed_string(key, value, level):
 
 def get_format(diff_view):
     """
-    Format the difference view into a string.
+    Format the difference represintation into a string.
 
     Parameters:
         diff_view: dict.
