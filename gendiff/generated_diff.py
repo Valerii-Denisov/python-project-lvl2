@@ -1,6 +1,6 @@
 """The module forms the differences of two flat files."""
 
-from gendiff.formaters import plain, stylish
+from gendiff.formaters import plain, stylish, json
 from gendiff.generate_view_diff import get_view_diff
 from gendiff.getting_date import getting_date
 
@@ -24,3 +24,7 @@ def generate_diff(first_file, second_file, format_diff='stylish'):
         return stylish.get_format(diff_view)
     elif format_diff == 'plain':
         return plain.get_format(diff_view)
+    elif format_diff == 'json' or format_diff == 'JSON':
+        return json.get_format(diff_view)
+    else:
+        raise('Inwalid format!')
