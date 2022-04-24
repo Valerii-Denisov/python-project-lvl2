@@ -7,6 +7,37 @@
 
 [![Gendiff CI](https://github.com/Valerii-Denisov/python-project-lvl2/actions/workflows/projectci.yml/badge.svg)](https://github.com/Valerii-Denisov/python-project-lvl2/actions/workflows/projectci.yml)
 
+
+<h3> Package description</h3>
+Accept two files and compares them for differences.
+
+<h3> Input formats</h3>
+Accepts files for comparison in the following formats::
+
+- JSON;
+
+- YAML;
+
+- YML.
+
+<h3> Output formats</h3>
+Outputs the difference in one of the three available formats:
+
+1) stylish,
+
+2) plain,
+
+3) json.
+
+
+<h3> Help and usage</h3>
+
+<code>gendiff -h</code>
+
+<code>gendiff --format path/to/file1 path/to/file2</code>
+
+<h2>DEMONSTRATION:</h2>
+
 Difference with flat file in stylish format
 <a href="https://asciinema.org/a/bZZb6a3RaDwT8gLzv1Ool7EOd" target="_blank"><img src="https://asciinema.org/a/bZZb6a3RaDwT8gLzv1Ool7EOd.svg" /></a>
 
