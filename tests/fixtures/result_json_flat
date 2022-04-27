@@ -1,1 +1,1 @@
-{"follow": {"status": "removed", "data": false}, "host": {"status": "unchanged", "data": "hexlet.io"}, "proxy": {"status": "removed", "data": "123.234.53.22"}, "timeout": {"status": "changed", "data": {"old": 50, "new": 20}}, "verbose": {"status": "added", "data": true}}
+{"follow": {"type": "removed", "data": false}, "host": {"type": "unchanged", "data": "hexlet.io"}, "proxy": {"type": "removed", "data": "123.234.53.22"}, "timeout": {"type": "changed", "data": {"old": 50, "new": 20}}, "verbose": {"type": "added", "data": true}}
