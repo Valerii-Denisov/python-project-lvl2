@@ -64,7 +64,7 @@ def get_val_string(sub_dict, level):
 
 def get_string(key, value, value_type, level):
     """
-    Build string of added node.
+    Build string of node.
 
     Parameters:
         key: str;
