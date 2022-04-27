@@ -1,9 +1,9 @@
 """The module forms the differences of two data string."""
 
+from gendiff.data_parser import getting_data
 from gendiff.file_reader import get_data_format
 from gendiff.formaters import json, plain, stylish
 from gendiff.generate_view_diff import get_view_diff
-from gendiff.data_parser import getting_data
 
 
 def generate_diff(first_data, second_data, format_diff='stylish'):
