@@ -3,22 +3,21 @@
 import json
 
 import yaml
-from gendiff.file_reader import get_raw_data
 from yaml.loader import SafeLoader
 
 
-def getting_data(data_path, data_format):
+def getting_data(getting_object, data_format):
     """
     Read data.
 
     Parameters:
-        data_path: str;
+        getting_object: str;
         data_format: str.
 
     Returns:
         Dict of data from file.
     """
     if data_format == 'json':
-        return json.loads(get_raw_data(data_path))
+        return json.loads(getting_object)
     elif data_format in {'yaml', 'yml'}:
-        return dict(yaml.load(get_raw_data(data_path), Loader=SafeLoader))
+        return dict(yaml.load(getting_object, Loader=SafeLoader))
