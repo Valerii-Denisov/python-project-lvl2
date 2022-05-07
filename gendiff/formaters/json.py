@@ -2,7 +2,7 @@
 import json
 
 
-def get_format(diff_view):
+def format_json(diff_view):
     """
     Format the difference represintation into a string.
 

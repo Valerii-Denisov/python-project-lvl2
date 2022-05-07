@@ -5,7 +5,7 @@ from gendiff.formaters import json, plain, stylish
 
 def format_diff(diff_view, formatter):
     """
-    Get a difference dict in one of three formats.
+    Get a difference in one of three formats.
 
     Parameters:
         diff_view: dict;
@@ -15,8 +15,8 @@ def format_diff(diff_view, formatter):
         difference in one of three formats.
     """
     if formatter == 'stylish':
-        return stylish.get_format(diff_view)
+        return stylish.format_stylish(diff_view)
     elif formatter == 'plain':
-        return plain.get_format(diff_view)
+        return plain.format_plain(diff_view)
     elif formatter == 'json':
-        return json.get_format(diff_view)
+        return json.format_json(diff_view)

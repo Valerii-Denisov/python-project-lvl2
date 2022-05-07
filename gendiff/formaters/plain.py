@@ -18,9 +18,9 @@ def get_path(key, parent):
     return '{0}'.format(key)
 
 
-def get_value(sub_dict):
+def stringify_value(sub_dict):
     """
-    Buid value string.
+    Convert value to a string.
 
     Parameters:
         sub_dict: str, int, dict, bool.
@@ -38,7 +38,7 @@ def get_value(sub_dict):
         return '\'{0}\''.format(sub_dict)
 
 
-def get_format(diff_view):
+def format_plain(diff_view):
     """
     Format the difference represintation into a string.
 
@@ -56,7 +56,7 @@ def get_format(diff_view):
                 output.append(
                     'Property \'{0}\' was added with value: {1}'.format(
                         get_path(key, parent),
-                        get_value(value['data']),
+                        stringify_value(value['data']),
                     ),
                 )
             elif value['type'] == 'removed':
@@ -69,8 +69,8 @@ def get_format(diff_view):
                 output.append(
                     'Property \'{0}\' was updated. From {1} to {2}'.format(
                         get_path(key, parent),
-                        get_value(value['data']['old']),
-                        get_value(value['data']['new']),
+                        stringify_value(value['data']['old']),
+                        stringify_value(value['data']['new']),
                     ),
                 )
             elif value['type'] == 'nested':
