@@ -3,7 +3,7 @@ import json
 import types
 
 INDENT = '    '
-MATH_REPR_STATUS = types.MappingProxyType({
+MATH_REPR_TYPE = types.MappingProxyType({
     'added': '  + ',
     'removed': '  - ',
     'unchanged': '    ',
@@ -13,13 +13,13 @@ MATH_REPR_STATUS = types.MappingProxyType({
 
 def get_level_indent(level=0):
     """
-    Build level ident.
+    Build level indent.
 
     Parameters:
         level: int.
 
     Returns:
-        Ident.
+        Indent.
     """
     return INDENT * level
 
@@ -81,7 +81,7 @@ def stringify_node(key, value, value_type, level):
     elif value_type == 'nested':
         return '{0}{1}{2}: {4}\n{3}\n{6}{5}'.format(
             get_level_indent(level),
-            MATH_REPR_STATUS[value_type],
+            MATH_REPR_TYPE[value_type],
             key,
             value,
             '{',
@@ -91,7 +91,7 @@ def stringify_node(key, value, value_type, level):
     elif isinstance(value, dict):
         return '{0}{1}{2}: {5}\n{3}\n{6}{4}'.format(
             get_level_indent(level),
-            MATH_REPR_STATUS[value_type],
+            MATH_REPR_TYPE[value_type],
             key,
             stringify_value(value, level + 1),
             '}',
@@ -101,7 +101,7 @@ def stringify_node(key, value, value_type, level):
     else:
         return '{0}{1}{2}: {3}'.format(
             get_level_indent(level),
-            MATH_REPR_STATUS[value_type],
+            MATH_REPR_TYPE[value_type],
             key,
             stringify_value(value, level),
         )

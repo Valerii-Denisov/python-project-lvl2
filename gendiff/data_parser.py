@@ -6,18 +6,18 @@ import yaml
 from yaml.loader import SafeLoader
 
 
-def getting_data(getting_object, data_format):
+def getting_data(raw_data, data_format):
     """
     Read data.
 
     Parameters:
-        getting_object: str;
+        raw_data: str;
         data_format: str.
 
     Returns:
         Dict of data from file.
     """
     if data_format == 'json':
-        return json.loads(getting_object)
+        return json.loads(raw_data)
     elif data_format in {'yaml', 'yml'}:
-        return dict(yaml.load(getting_object, Loader=SafeLoader))
+        return dict(yaml.load(raw_data, Loader=SafeLoader))
