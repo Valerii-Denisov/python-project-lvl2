@@ -60,28 +60,28 @@ def stringify_value(sub_dict, level):
     return '\n'.join(output)
 
 
-def stringify_node(key, value, value_type, level):
+def stringify_node(key, value, node_type, level):
     """
     Convert node to a string.
 
     Parameters:
         key: str;
         value: dict;
-        value_type: str;
+        node_type: str;
         level: int.
 
     Returns:
         string.
     """
-    if value_type == 'changed':
+    if node_type == 'changed':
         output = []
         output.append(stringify_node(key, value['old'], 'removed', level))
         output.append(stringify_node(key, value['new'], 'added', level))
         return '\n'.join(output)
-    elif value_type == 'nested':
+    elif node_type == 'nested':
         return '{0}{1}{2}: {4}\n{3}\n{6}{5}'.format(
             get_level_indent(level),
-            MATH_REPR_TYPE[value_type],
+            MATH_REPR_TYPE[node_type],
             key,
             value,
             '{',
@@ -91,7 +91,7 @@ def stringify_node(key, value, value_type, level):
     elif isinstance(value, dict):
         return '{0}{1}{2}: {5}\n{3}\n{6}{4}'.format(
             get_level_indent(level),
-            MATH_REPR_TYPE[value_type],
+            MATH_REPR_TYPE[node_type],
             key,
             stringify_value(value, level + 1),
             '}',
@@ -101,7 +101,7 @@ def stringify_node(key, value, value_type, level):
     else:
         return '{0}{1}{2}: {3}'.format(
             get_level_indent(level),
-            MATH_REPR_TYPE[value_type],
+            MATH_REPR_TYPE[node_type],
             key,
             stringify_value(value, level),
         )
@@ -121,23 +121,7 @@ def format_stylish(diff_view):
     def walk(diff, level=0):
         output = []
         for key, value in diff.items():
-            if value.get('type') == 'added':
-                output.append(
-                    stringify_node(key, value['data'], 'added', level),
-                )
-            elif value.get('type') == 'removed':
-                output.append(
-                    stringify_node(key, value['data'], 'removed', level),
-                )
-            elif value.get('type') == 'unchanged':
-                output.append(
-                    stringify_node(key, value['data'], 'unchanged', level),
-                )
-            elif value.get('type') == 'changed':
-                output.append(
-                    stringify_node(key, value['data'], 'changed', level),
-                )
-            else:
+            if value.get('type') == 'nested':
                 output.append(
                     stringify_node(
                         key,
@@ -145,6 +129,10 @@ def format_stylish(diff_view):
                         'nested',
                         level,
                     ),
+                )
+            else:
+                output.append(
+                    stringify_node(key, value['data'], value.get('type'), level),
                 )
         return '\n'.join(output)
     return '\n'.join(('{', walk(diff_view, 0), '}'))
