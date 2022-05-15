@@ -60,79 +60,73 @@ def stringify_value(sub_dict, level):
     return '\n'.join(output)
 
 
-def stringify_node(key, value, node_type, level):
+def stringify_node(key, value, level=0):
     """
     Convert node to a string.
 
     Parameters:
         key: str;
         value: dict;
-        node_type: str;
         level: int.
 
     Returns:
         string.
     """
+    def build_line(sub_key, sub_value, node_type, sub_level):
+        if isinstance(sub_value, dict):
+            return '{0}{1}{2}: {5}\n{3}\n{6}{4}'.format(
+                get_level_indent(sub_level),
+                MATH_REPR_TYPE[node_type],
+                sub_key,
+                stringify_value(sub_value, sub_level + 1),
+                '}',
+                '{',
+                get_level_indent(sub_level + 1),
+            )
+        else:
+            return '{0}{1}{2}: {3}'.format(
+                get_level_indent(sub_level),
+                MATH_REPR_TYPE[node_type],
+                sub_key,
+                stringify_value(sub_value, sub_level),
+            )
+    node_type = value.get('type')
     if node_type == 'changed':
-        output = []
-        output.append(stringify_node(key, value['old'], 'removed', level))
-        output.append(stringify_node(key, value['new'], 'added', level))
+        output = [
+            build_line(key, value['data']['old'], 'removed', level),
+            build_line(key, value['data']['new'], 'added', level),
+        ]
         return '\n'.join(output)
     elif node_type == 'nested':
-        return '{0}{1}{2}: {4}\n{3}\n{6}{5}'.format(
+        output = ['{0}{1}{2}: {3}'.format(
             get_level_indent(level),
             MATH_REPR_TYPE[node_type],
             key,
-            value,
             '{',
-            '}',
-            get_level_indent(level + 1),
-        )
-    elif isinstance(value, dict):
-        return '{0}{1}{2}: {5}\n{3}\n{6}{4}'.format(
-            get_level_indent(level),
-            MATH_REPR_TYPE[node_type],
-            key,
-            stringify_value(value, level + 1),
-            '}',
-            '{',
-            get_level_indent(level + 1),
-        )
+        )]
+        children = value.get('children')
+        for child_key, child_value in children.items():
+            output.append(stringify_node(child_key, child_value, level + 1))
+        output.append('{0}{1}'.format(get_level_indent(level + 1), '}'))
+        return '\n'.join(output)
     else:
-        return '{0}{1}{2}: {3}'.format(
-            get_level_indent(level),
-            MATH_REPR_TYPE[node_type],
-            key,
-            stringify_value(value, level),
-        )
+        return build_line(key, value['data'], node_type, level)
 
 
 def format_stylish(diff_view):
     """
-    Format the difference represintation into a string.
+    Format the difference representation into a string.
 
     Parameters:
         diff_view: dict.
 
     Returns:
-        Formated string.
+        Formatted string.
 
     """
-    def walk(diff, level=0):
-        output = []
-        for key, value in diff.items():
-            if value.get('type') == 'nested':
-                output.append(
-                    stringify_node(
-                        key,
-                        walk(value.get('children'), level + 1),
-                        'nested',
-                        level,
-                    ),
-                )
-            else:
-                output.append(
-                    stringify_node(key, value['data'], value.get('type'), level),
-                )
-        return '\n'.join(output)
-    return '\n'.join(('{', walk(diff_view, 0), '}'))
+    output = []
+    for key, value in diff_view.items():
+        output.append(
+            stringify_node(key, value),
+        )
+    return '\n'.join(('{', '\n'.join(output), '}'))
