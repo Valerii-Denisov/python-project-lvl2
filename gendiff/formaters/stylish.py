@@ -24,45 +24,46 @@ def get_level_indent(level=0):
     return INDENT * level
 
 
-def stringify_value(sub_dict, level):
+def stringify_value(value, level):
     """
     Convert value to a string.
 
     Parameters:
-        sub_dict: str, int, dict, bool;
+        value: str, int, dict, bool;
         level: int.
 
     Returns:
         value string.
     """
     output = ['{']
-    if isinstance(sub_dict, bool) or sub_dict is None:
-        return json.dumps(sub_dict)
-    elif isinstance(sub_dict, (int, str)):
-        return sub_dict
-    def walk(sub_value, level):
-        output = []
-        for key, value in sub_value.items():
-            if isinstance(value, dict):
-                output.append(
+    if isinstance(value, bool) or value is None:
+        return json.dumps(value)
+    elif isinstance(value, (int, str)):
+        return value
+
+    def walk(sub_dict, sub_level):
+        sub_output = []
+        for sub_key, sub_value in sub_dict.items():
+            if isinstance(sub_value, dict):
+                sub_output.append(
                     '{0}{1}: {2}\n{3}\n{0}{4}'.format(
-                        get_level_indent(level + 1),
-                        key,
+                        get_level_indent(sub_level + 1),
+                        sub_key,
                         '{',
-                        walk(value, level + 1),
+                        walk(sub_value, sub_level + 1),
                         '}',
                     ),
                 )
             else:
-                output.append(
+                sub_output.append(
                     '{0}{1}: {2}'.format(
-                        get_level_indent(level + 1),
-                        key,
-                        value,
+                        get_level_indent(sub_level + 1),
+                        sub_key,
+                        sub_value,
                     ),
                 )
-        return '\n'.join(output)
-    output.append(walk(sub_dict, level))
+        return '\n'.join(sub_output)
+    output.append(walk(value, level))
     output.append('{0}{1}'.format(get_level_indent(level), '}'))
     return '\n'.join(output)
 
@@ -82,17 +83,19 @@ def stringify_node(key, value, level=0):
     node_type = value.get('type')
     if node_type == 'changed':
         output = [
-                '{0}{1}{2}: {3}'.format(
+            '{0}{1}{2}: {3}'.format(
                 get_level_indent(level),
-               MATH_REPR_TYPE['removed'],
+                '  - ',
                 key,
-                stringify_value(value['data']['old'], level + 1)),
-                '{0}{1}{2}: {3}'.format(
+                stringify_value(value['data']['old'], level + 1),
+            ),
+            '{0}{1}{2}: {3}'.format(
                 get_level_indent(level),
-                MATH_REPR_TYPE['added'],
+                '  + ',
                 key,
-                stringify_value(value['data']['new'], level + 1)),
-         ]
+                stringify_value(value['data']['new'], level + 1),
+            ),
+        ]
         return '\n'.join(output)
     elif node_type == 'nested':
         output = ['{0}{1}{2}: {3}'.format(
@@ -103,17 +106,16 @@ def stringify_node(key, value, level=0):
         )]
         children = value.get('children')
         for child_key, child_value in children.items():
-            output.append(stringify_node(child_key, child_value, level+1))
+            output.append(stringify_node(child_key, child_value, level + 1))
         output.append('{0}{1}'.format(get_level_indent(level + 1), '}'))
         return '\n'.join(output)
     else:
-        print(node_type)
         return '{0}{1}{2}: {3}'.format(
-                get_level_indent(level),
-                MATH_REPR_TYPE[node_type],
-                key,
-                stringify_value(value['data'], level + 1),
-            )
+            get_level_indent(level),
+            MATH_REPR_TYPE[node_type],
+            key,
+            stringify_value(value['data'], level + 1),
+        )
 
 
 def format_stylish(diff_view):
