@@ -7,7 +7,6 @@
 
 [![Gendiff CI](https://github.com/Valerii-Denisov/python-project-lvl2/actions/workflows/projectci.yml/badge.svg)](https://github.com/Valerii-Denisov/python-project-lvl2/actions/workflows/projectci.yml)
 
-
 <h3> Package description</h3>
 Accept two files and compares them for differences.
 
